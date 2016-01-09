@@ -4,8 +4,7 @@
 #include "Defination.h"
 
 
-Scene* GameOverScene::createScene(uint64_t tempScore)	{
-	score = tempScore;
+Scene* GameOverScene::createScene()	{
 	auto scene = Scene::create();
 	auto layer = GameOverScene::create();
 	scene->addChild(layer);

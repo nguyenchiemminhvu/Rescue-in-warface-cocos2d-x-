@@ -6,11 +6,9 @@
 
 USING_NS_CC;
 
-static uint64_t score;
-
 class GameOverScene : public Layer	{
 public:
-	static Scene* createScene(uint64_t score);
+	static Scene* createScene();
 	virtual bool init();
 	
 	CREATE_FUNC(GameOverScene);

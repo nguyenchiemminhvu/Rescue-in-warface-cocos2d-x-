@@ -8,14 +8,15 @@ HUD::HUD()	{
 HUD::~HUD()	{
 }
 
-
-void HUD::increaseScore()	{
-	this->score++;
+uint64_t HUD::getRemainingDistance()
+{
+	return this->remainingDistance;
 }
 
-
-uint64_t HUD::getScore()	{
-	return this->score;
+void HUD::decreaseDistance()
+{
+	if(remainingDistance > 0)
+		remainingDistance--;
 }
 
 
@@ -34,18 +35,19 @@ HUD* HUD::createHUD()	{
 
 void HUD::initOption()	{
 
-	this->score = 0;
+	this->remainingDistance = 500;
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto origin = Director::getInstance()->getVisibleOrigin();
 
-	auto stringScore = __String::createWithFormat( "Score: %d", this->score );
-	labelScore = LabelTTF::create(stringScore->getCString(), "fonts/Marker Felt.ttf", 50);
-	labelScore->setColor( Color3B::WHITE );
-	labelScore->setPosition( origin.x + labelScore->getContentSize().width,
-		origin.y + visibleSize.height - labelScore->getContentSize().height );
-	labelScore->setFontFillColor( Color3B::YELLOW );
+	auto stringDistance = __String::createWithFormat( "Remaining distance: %d", this->remainingDistance );
+	labelDistance = LabelTTF::create(stringDistance->getCString(), "fonts/Backslash.ttf", 40);
+	labelDistance->setAnchorPoint(Vec2(0, 0));
+	labelDistance->setColor( Color3B::WHITE );
+	labelDistance->setPosition( origin.x + visibleSize.width - labelDistance->getContentSize().width,
+		origin.y + visibleSize.height - labelDistance->getContentSize().height );
+	labelDistance->setFontFillColor( Color3B::YELLOW );
 
-	this->addChild( labelScore );
+	this->addChild( labelDistance );
 
 	this->scheduleUpdate();
 }
@@ -56,6 +58,6 @@ void HUD::draw(cocos2d::Renderer * renderer, const cocos2d::Mat4 & transform, bo
 
 
 void HUD::update( float delta )		{
-	auto stringScore = __String::createWithFormat( "Score: %d", this->score );
-	labelScore->setString( stringScore->getCString() );
+	auto stringScore = __String::createWithFormat( "Remaining distance: %d", this->remainingDistance );
+	labelDistance->setString( stringScore->getCString() );
 }

@@ -5,7 +5,6 @@
 
 #include "cocos2d.h"
 #include "Vector2D.h"
-#include "Point2D.h"
 #include "Defination.h"
 
 USING_NS_CC;
@@ -13,22 +12,32 @@ USING_NS_CC;
 class Player
 {
 public:
+
 	Player(Layer *layer);
 	virtual ~Player();
 
-	int getPosX();
-	int getPosY();
-	void setPosX(int x);
-	void setPosY(int y);
-
-	void handleKeyDownEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 	void handleKeyReleaseEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void handleMouseMoveEvent(cocos2d::EventMouse *event);
 
 	void update(float dt);
 
 private:
-	Point2D playerPos;
-	Vector2D playerVel;
+
+	cocos2d::Vec2 origin;
+	cocos2d::Size visibleSize;
+	cocos2d::Rect activitiesArea;
+
+	Vector2D playerCurrentVelocity;
+	Vector2D mousePosition;
+
+	Sprite *playerSprite;
+	cocos2d::Vec2 playerPrePosition;
+	
+	void loadPlayerSprite(Layer *layer);
+	void limitedPlayerArea();
+	void initPlayerVelocity();
+	float approachMousePosition(float separation, float dt);
 };
 
 #endif //__PLAYER_H__

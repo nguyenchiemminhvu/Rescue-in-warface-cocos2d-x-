@@ -26,9 +26,9 @@ bool MainMenuScene::init()	{
 	buttonExit = ui::Button::create("button_exit.png", "button_exit_clicked.png");
 
 	buttonPlay->setPosition(Vec2(origin.x + visibleSize.width / 2,
-								 origin.y + visibleSize.height / 2 + buttonPlay->getContentSize().height * 2));
+								 origin.y + visibleSize.height / 2 + buttonPlay->getContentSize().height));
 	buttonExit->setPosition(Vec2(origin.x + visibleSize.width / 2,
-								 origin.y + visibleSize.height / 2 - buttonExit->getContentSize().height * 2));
+								 origin.y + visibleSize.height / 2 - buttonExit->getContentSize().height));
 
 	this->addChild(background);
 	this->addChild(buttonPlay);

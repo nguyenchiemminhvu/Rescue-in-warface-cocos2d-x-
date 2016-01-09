@@ -3,70 +3,79 @@
 
 Player::Player(Layer * layer)
 {
-	
+	loadPlayerSprite(layer);
+	limitedPlayerArea();
 }
 
 Player::~Player()
 {
+	CC_SAFE_DELETE(playerSprite);
 }
 
-int Player::getPosX()
+void Player::handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
 {
-	return playerPos.getX();
-}
-
-int Player::getPosY()
-{
-	return playerPos.getY();
-}
-
-void Player::setPosX(int x)
-{
-	playerPos.setX(x);
-}
-
-void Player::setPosY(int y)
-{
-	playerPos.setY(y);
-}
-
-void Player::handleKeyDownEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
-{
-	switch (keyCode)
-	{
-	case EventKeyboard::KeyCode::KEY_W:
-		break;
-
-	case EventKeyboard::KeyCode::KEY_S:
-		break;
-
-	case EventKeyboard::KeyCode::KEY_A:
-		break;
-
-	case EventKeyboard::KeyCode::KEY_D:
-		break;
-	}
 }
 
 void Player::handleKeyReleaseEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
 {
-	switch (keyCode)
-	{
-	case EventKeyboard::KeyCode::KEY_W:
-		break;
+}
 
-	case EventKeyboard::KeyCode::KEY_S:
-		break;
+void Player::handleMouseMoveEvent(cocos2d::EventMouse * event)
+{
+	mousePosition.setX(origin.x + event->getCursorX());
+	mousePosition.setY(origin.y + event->getCursorY());
+}
 
-	case EventKeyboard::KeyCode::KEY_A:
-		break;
-
-	case EventKeyboard::KeyCode::KEY_D:
-		break;
-	}
+float Player::approachMousePosition(float separation, float dt)
+{
+	float different = separation * dt * 2;
+	
+	return different;
 }
 
 void Player::update(float dt)
 {
+	//save temporarily player position
+	playerPrePosition = playerSprite->getPosition();
 
+	float differentX = mousePosition.getX() - playerSprite->getPositionX();
+	float differentY = mousePosition.getY() - playerSprite->getPositionY();
+
+	playerCurrentVelocity.setX(approachMousePosition(differentX, dt));
+	playerCurrentVelocity.setY(approachMousePosition(differentY, dt));
+
+	playerSprite->setPositionX(playerSprite->getPositionX() + playerCurrentVelocity.getX());
+	playerSprite->setPositionY(playerSprite->getPositionY() + playerCurrentVelocity.getY());
+
+	//check player position get out of range
+	if (!activitiesArea.containsPoint(playerSprite->getPosition())) {
+		//get back
+		playerSprite->setPosition(playerPrePosition);
+	}
+}
+
+void Player::loadPlayerSprite(Layer *layer)
+{
+	origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+
+	playerSprite = Sprite::create("helicopter_transportation.png");
+	playerSprite->setPosition(Vec2(origin.x + playerSprite->getContentSize().width * 2,
+		origin.y + GROUND_THICKNESS + playerSprite->getContentSize().height));
+	playerPrePosition = playerSprite->getPosition();
+	layer->addChild(playerSprite);
+}
+
+void Player::limitedPlayerArea()
+{
+	activitiesArea.setRect(0, GROUND_THICKNESS, visibleSize.width, visibleSize.height);
+}
+
+void Player::initPlayerVelocity()
+{
+	playerCurrentVelocity.setX(0);
+	playerCurrentVelocity.setY(0);
+
+	mousePosition.setX(playerSprite->getPositionX());
+	mousePosition.setY(playerSprite->getPositionY());
 }

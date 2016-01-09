@@ -18,12 +18,12 @@ public:
                          bool transformUpdated); 
 	virtual void update( float delta );
 
-	uint64_t getScore();
-	void increaseScore();
+	uint64_t getRemainingDistance();
+	void decreaseDistance();
 	
 private:
-	uint64_t score;
-	LabelTTF* labelScore;
+	uint64_t remainingDistance;
+	LabelTTF* labelDistance;
 };
 
 #endif //__HUD_H__
