@@ -1,4 +1,5 @@
 #include "MainMenuScene.h"
+#include "GameScene.h"
 #include "IntroductionScene.h"
 #include "Defination.h"
 
@@ -83,7 +84,7 @@ void MainMenuScene::handleButtonExitClicked(Ref * sender, ui::Widget::TouchEvent
 void MainMenuScene::goToIntroductionScene(Ref * sender)
 {
 	auto introduction = IntroductionScene::createScene();
-	cocos2d::Director::getInstance()->replaceScene(introduction);
+	cocos2d::Director::getInstance()->replaceScene(GameScene::createScene());
 }
 
 void MainMenuScene::exitGame(Ref * sender)

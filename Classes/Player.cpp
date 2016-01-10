@@ -28,7 +28,7 @@ void Player::handleMouseMoveEvent(cocos2d::EventMouse * event)
 
 float Player::approachMousePosition(float separation, float dt)
 {
-	float different = separation * dt * 2;
+	float different = separation * dt;
 	
 	return different;
 }

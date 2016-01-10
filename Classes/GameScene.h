@@ -49,6 +49,8 @@ private:
 	void resetBackground();
 	
 	void initPlayer();
+
+	void spawnTank(float t);
 };
 
 #endif //__GAME_SCENE_H__

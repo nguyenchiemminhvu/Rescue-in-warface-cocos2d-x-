@@ -35,7 +35,7 @@ HUD* HUD::createHUD()	{
 
 void HUD::initOption()	{
 
-	this->remainingDistance = 500;
+	this->remainingDistance = 100;
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto origin = Director::getInstance()->getVisibleOrigin();
 

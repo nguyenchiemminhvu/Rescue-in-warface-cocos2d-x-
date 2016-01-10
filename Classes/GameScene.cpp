@@ -2,6 +2,7 @@
 #include "PauseScene.h"
 #include "GameOverScene.h"
 #include "Defination.h"
+#include "Tank.h"
 
 
 Scene* GameScene::createScene()	{
@@ -23,6 +24,7 @@ bool GameScene::init()	{
 	}
 
 	this->scheduleUpdate();
+	this->schedule(schedule_selector(GameScene::spawnTank), TANK_SPAWN_TIME);
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
@@ -42,6 +44,7 @@ bool GameScene::init()	{
 	initKeyboardListener();
 	initMouseListener();
 
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(false);
 	return true;
 }
 
@@ -140,4 +143,9 @@ void GameScene::resetBackground()
 void GameScene::initPlayer()
 {
 	player = new Player(this);
+}
+
+void GameScene::spawnTank(float t)
+{
+	Tank::spawnTank(this);
 }

@@ -4,6 +4,9 @@
 const float SCHEDULE_TRANSITION_TIME = 3;
 const float TRANSITION_TIME = 1;
 const float GROUND_THICKNESS = 188;
+const float TANK_SPAWN_TIME = 6;
+const float TANK_RELOAD_DURATION = 1;
+const float MISSILE_FLYING_DURATION = 1;
 
 enum IntroductionSceneProperties
 {
@@ -12,5 +15,6 @@ enum IntroductionSceneProperties
 	HELICOPTER_LEAVING_DURATION = 6, // 6
 	SOLDIER_MOVING_DURATION = 3 // 3
 };
+
 
 #endif //__DEFINATION_H__
