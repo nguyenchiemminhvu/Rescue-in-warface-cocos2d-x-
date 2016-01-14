@@ -5,6 +5,7 @@ Player::Player(Layer * layer)
 {
 	loadPlayerSprite(layer);
 	limitedPlayerArea();
+	initPlayerPhysicsBody();
 }
 
 Player::~Player()
@@ -54,6 +55,7 @@ void Player::update(float dt)
 	}
 }
 
+
 void Player::loadPlayerSprite(Layer *layer)
 {
 	origin = cocos2d::Director::getInstance()->getVisibleOrigin();
@@ -78,4 +80,13 @@ void Player::initPlayerVelocity()
 
 	mousePosition.setX(playerSprite->getPositionX());
 	mousePosition.setY(playerSprite->getPositionY());
+}
+
+void Player::initPlayerPhysicsBody()
+{
+	auto playerBody = PhysicsBody::createBox(Size(playerSprite->getContentSize().width, playerSprite->getContentSize().height / 2));
+	playerBody->setContactTestBitmask(true);
+	playerBody->setCollisionBitmask(PLAYER_COLLISTION_BITMASK);
+
+	playerSprite->setPhysicsBody(playerBody);
 }

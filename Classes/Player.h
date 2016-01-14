@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-class Player
+class Player : public Node
 {
 public:
 
@@ -21,6 +21,7 @@ public:
 	void handleMouseMoveEvent(cocos2d::EventMouse *event);
 
 	void update(float dt);
+
 
 private:
 
@@ -37,6 +38,7 @@ private:
 	void loadPlayerSprite(Layer *layer);
 	void limitedPlayerArea();
 	void initPlayerVelocity();
+	void initPlayerPhysicsBody();
 	float approachMousePosition(float separation, float dt);
 };
 

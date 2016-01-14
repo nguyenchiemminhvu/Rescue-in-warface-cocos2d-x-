@@ -24,8 +24,13 @@ private:
 	cocos2d::Layer *layer;
 	cocos2d::Sprite *tankSprite;
 	cocos2d::Sprite *tankMissile;
+	cocos2d::Vec2 aimPosition;
+
+	void createTank();
+	void setTankAction();
 
 	void launchMissile();
+	cocos2d::Vec2 targetPosition();
 	void missileExplode();
 };
 

@@ -7,6 +7,8 @@ const float GROUND_THICKNESS = 188;
 const float TANK_SPAWN_TIME = 6;
 const float TANK_RELOAD_DURATION = 1;
 const float MISSILE_FLYING_DURATION = 1;
+const float RANGE_MISSILE_SPAWN_DURATION = 4;
+const float RANGE_MISSILE_FLYING_DURATION = 2;
 
 enum IntroductionSceneProperties
 {
@@ -14,6 +16,12 @@ enum IntroductionSceneProperties
 	HELICOPTER_LANDING_DURATION = 5, // 5
 	HELICOPTER_LEAVING_DURATION = 6, // 6
 	SOLDIER_MOVING_DURATION = 3 // 3
+};
+
+enum CollisionBitmask
+{
+	OBSTACLE_COLLISION_BITMASK,
+	PLAYER_COLLISTION_BITMASK
 };
 
 

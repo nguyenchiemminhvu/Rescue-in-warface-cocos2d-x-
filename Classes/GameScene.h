@@ -28,8 +28,12 @@ private:
 	cocos2d::Size visibleSize;
 	cocos2d::Vec2 origin;
 
-	Sprite *background;
-	Sprite *background2;
+	Sprite *ground;
+	Sprite *ground2;
+	Sprite *outdoor;
+	Sprite *outdoor2;
+	
+	cocos2d::ParticleRain *rainEffect;
 
 	PhysicsWorld* physicsWorld;
 	HUD* hud;
@@ -40,17 +44,26 @@ private:
 	void initHUD();
 	void initKeyboardListener();
 	void initMouseListener();
+	void initContactListener();
+	void initBoundPhysicsBody();
+	void initGroundPhysicsBody();
 
 	void onKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 	void onKeyReleaseEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 	void onMouseMoveEvent(cocos2d::EventMouse *event);
+	bool onContactBegin(PhysicsContact &contact);
 
 	void setPhysicsWorld(PhysicsWorld* world)	{ physicsWorld = world; }
 	void resetBackground();
+	void resetOutdoor();
 	
+	void initGround();
+	void initGameScene();
 	void initPlayer();
+	void initRainEffect();
 
 	void spawnTank(float t);
+	void spawnRangeMissile(float t);
 };
 
 #endif //__GAME_SCENE_H__

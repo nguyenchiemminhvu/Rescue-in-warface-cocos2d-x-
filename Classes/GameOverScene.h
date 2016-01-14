@@ -3,6 +3,7 @@
 
 #pragma once
 #include "cocos2d.h"
+#include "ui\CocosGUI.h"
 
 USING_NS_CC;
 
@@ -17,7 +18,18 @@ public:
 	void goToGameScene(Ref* sender);
 
 private:
+	cocos2d::Size visibleSize;
+	cocos2d::Vec2 origin;
 
+	cocos2d::Sprite *background;
+	ui::Button *buttonRetry;
+	ui::Button *buttonMenu;
+
+	void initBackground();
+	void initButtons();
+
+	void handleButtonRetryClicked(Ref *sender, ui::Widget::TouchEventType type);
+	void handleButtonMenuClicked(Ref *sender, ui::Widget::TouchEventType type);
 };
 
 #endif //__GAMEOVER_SCENE_H__

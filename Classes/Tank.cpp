@@ -12,12 +12,31 @@ Tank::Tank(Layer * layer)
 	visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
+	createTank();
+	setTankAction();
+}
+
+Tank::~Tank()
+{
+	CC_SAFE_DELETE(tankSprite);
+}
+
+Vec2 Tank::tankPosition()
+{
+	return tankSprite->getPosition();
+}
+
+void Tank::createTank()
+{
 	tankSprite = Sprite::create("tank_air_defense.png");
 	tankSprite->setPosition(origin.x + visibleSize.width + cocos2d::random(-100, 100),
-							origin.y + GROUND_THICKNESS - tankSprite->getContentSize().height / 2);
+		origin.y + GROUND_THICKNESS - tankSprite->getContentSize().height / 2);
 
 	this->layer->addChild(tankSprite);
+}
 
+void Tank::setTankAction()
+{
 	auto moveLeft1 = MoveBy::create(TANK_RELOAD_DURATION, Vec2(-100, 0));
 	auto launch = CallFunc::create(this, callfunc_selector(Tank::launchMissile));
 	auto step1 = Sequence::create(moveLeft1, launch, NULL);
@@ -33,16 +52,6 @@ Tank::Tank(Layer * layer)
 	tankSprite->runAction(tankSequence);
 }
 
-Tank::~Tank()
-{
-	CC_SAFE_DELETE(tankSprite);
-}
-
-Vec2 Tank::tankPosition()
-{
-	return tankSprite->getPosition();
-}
-
 void Tank::launchMissile()
 {
 	tankMissile = cocos2d::Sprite::create("tank_ammo.png");
@@ -50,14 +59,35 @@ void Tank::launchMissile()
 	this->layer->addChild(tankMissile, 1000);
 
 	//tank's missile sequence action
-	auto missileFlying = MoveTo::create(1, Vec2(cocos2d::random(origin.x + 100, origin.x + 400), cocos2d::random(origin.y + GROUND_THICKNESS + 100, origin.y + visibleSize.height - 100)));
+	aimPosition = targetPosition();
+	auto missileFlying = MoveTo::create(1, aimPosition);
 	auto explode = CallFunc::create(this, callfunc_selector(Tank::missileExplode));
 	
 	tankMissile->runAction(Sequence::create(missileFlying, explode, NULL));
 }
 
+cocos2d::Vec2 Tank::targetPosition()
+{
+	return cocos2d::Vec2(cocos2d::random(origin.x + 100, origin.x + 500), cocos2d::random(origin.y + GROUND_THICKNESS + 100, origin.y + visibleSize.height - 100));
+}
+
 void Tank::missileExplode()
 {
-	cocos2d::log("(%d, %d)\n", tankMissile->getPositionX(), tankMissile->getPositionY()); //can't get the position of missile after launched
+	auto explosion = ParticleExplosion::createWithTotalParticles(100);
+	explosion->setEmitterMode(ParticleSystem::Mode::RADIUS);
+	explosion->setPosition(aimPosition);
+	explosion->setStartColor(Color4F(0xff, 0, 0, 0xff));
+	explosion->setEndColor(Color4F(0xff, 0x55, 0, 0xff));
+	explosion->setEndRadius(300);
+
+	auto explosionBody = PhysicsBody::createCircle(100);
+	explosionBody->setDynamic(false);
+	explosionBody->setContactTestBitmask(true);
+	explosionBody->setCollisionBitmask(OBSTACLE_COLLISION_BITMASK);
+	explosion->setPhysicsBody(explosionBody);
+
+	explosion->runAction(Sequence::create(DelayTime::create(1), CallFunc::create(explosion, callfunc_selector(ParticleExplosion::removeFromParent)), NULL));
+	
+	layer->addChild(explosion);
 	tankMissile->removeFromParent();
 }
