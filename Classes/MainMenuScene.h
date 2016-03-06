@@ -18,10 +18,15 @@ public:
 private:
 
 	Sprite *background;
+
 	ui::Button *buttonPlay;
+	ui::Button *buttonInstruction;
 	ui::Button *buttonExit;
 
+	cocos2d::LabelTTF *name;
+
 	void handleButtonPlayClicked(Ref *sender, ui::Widget::TouchEventType type);
+	void handleButtonInstructionClicked(Ref *sender, ui::Widget::TouchEventType type);
 	void handleButtonExitClicked(Ref *sender, ui::Widget::TouchEventType type);
 
 	void goToIntroductionScene(Ref* sender);

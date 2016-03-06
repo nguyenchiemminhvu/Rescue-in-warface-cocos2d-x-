@@ -20,10 +20,27 @@ public:
 
 	uint64_t getRemainingDistance();
 	void decreaseDistance();
+
+	uint8_t getRemainingFuel();
+	void increaseFuel(uint16_t amount);
+	void decreaseFuel();
 	
+	uint64_t getScore();
+	void increaseScrore(uint64_t amount);
+
+	void warning();
+
 private:
 	uint64_t remainingDistance;
+	uint8_t remainingFuel;
+	uint64_t score;
 	LabelTTF* labelDistance;
+	LabelTTF* labelFuel;
+	LabelTTF* labelScore;
+	LabelTTF* labelWarning;
+
+	void turnOnWarning();
+	void turnOffWarning();
 };
 
 #endif //__HUD_H__

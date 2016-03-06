@@ -4,6 +4,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "ui\CocosGUI.h"
 
 USING_NS_CC;
 
@@ -21,12 +22,17 @@ private:
 	cocos2d::Vec2 origin;
 
 	Sprite *background;
+	Sprite *outdoor;
 	Sprite *helicopter;
 	Sprite *soldier1;
 	Sprite *soldier2;
 	Sprite *soldier3;
 
+	ui::Button *buttonSkip;
+	void handleButtonSkipClicked(Ref * sender, ui::Widget::TouchEventType type);
+
 	cocos2d::Sequence* helicopterComing();
+	void FlipHelicopter();
 	cocos2d::Sequence* helicopterLeaving();
 	cocos2d::Sequence* soldiersMovement();
 	void goToGameScene(float t);

@@ -17,27 +17,38 @@ bool PauseScene::init()	{
 		return false;
 	}
 	
+	cocos2d::Director::getInstance()->getOpenGLView()->setCursorVisible(true);
+	initKeyboardListener();
+
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	auto origin = Director::getInstance()->getVisibleOrigin();
-	
+
+	pauseLabel = LabelTTF::create("Game Paused", "fonts/", 30);
+	pauseLabel->setScale(2);
+	pauseLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + pauseLabel->getContentSize().height));
+	this->addChild(pauseLabel);
+
 	return true;
 }
 
 
-void PauseScene::goToMainMenuScene(Ref* sender)	{
-	auto menuScene = MainMenuScene::createScene();
-	Director::getInstance()->popScene();
-	Director::getInstance()->replaceScene(menuScene);
-}
-
-
-void PauseScene::resume(Ref* sender)	{
+void PauseScene::back(Ref* sender)	{
 	Director::getInstance()->popScene();
 }
 
+void PauseScene::initKeyboardListener()
+{
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyPressed = CC_CALLBACK_2(PauseScene::onKeyPressedEvent, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
+}
 
-void PauseScene::retry(Ref* sender)	{
-	auto gameScene = GameScene::createScene();
-	Director::getInstance()->popScene();
-	Director::getInstance()->replaceScene(TransitionFade::create(1000, gameScene) );
+void PauseScene::onKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+{
+	switch (keyCode)
+	{
+	case EventKeyboard::KeyCode::KEY_ESCAPE:
+		this->back(this);
+		break;
+	}
 }

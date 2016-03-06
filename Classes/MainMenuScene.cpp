@@ -23,20 +23,32 @@ bool MainMenuScene::init()	{
 	background = Sprite::create("main_menu_background.png");
 	background->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 
+	name = LabelTTF::create("Rescue in warface", "fonts/Backslash.ttf", 80);
+	name->setColor(Color3B::WHITE);
+	name->setFontFillColor(Color3B::YELLOW);
+	name->setPosition(Vec2(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height - name->getContentSize().height));
+
 	buttonPlay = ui::Button::create("button_play.png", "button_play_clicked.png");
+	buttonInstruction = ui::Button::create("button_instruction.png", "button_instruction_clicked.png");
 	buttonExit = ui::Button::create("button_exit.png", "button_exit_clicked.png");
 
 	buttonPlay->setPosition(Vec2(origin.x + visibleSize.width / 2,
-								 origin.y + visibleSize.height / 2 + buttonPlay->getContentSize().height));
+								 origin.y + visibleSize.height / 2 + buttonPlay->getContentSize().height / 2.25));
+	buttonInstruction->setPosition(Vec2(origin.x + visibleSize.width / 2,
+										origin.y + visibleSize.height / 2 - buttonInstruction->getContentSize().height / 1.25));
 	buttonExit->setPosition(Vec2(origin.x + visibleSize.width / 2,
-								 origin.y + visibleSize.height / 2 - buttonExit->getContentSize().height));
+								 origin.y + visibleSize.height / 2 - buttonExit->getContentSize().height * 2));
 
 	this->addChild(background);
+	this->addChild(name);
 	this->addChild(buttonPlay);
+	this->addChild(buttonInstruction);
 	this->addChild(buttonExit);
 
 	//button clicked listener
 	buttonPlay->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::handleButtonPlayClicked, this));
+	buttonInstruction->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::handleButtonInstructionClicked, this));
 	buttonExit->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::handleButtonExitClicked, this));
 
 	return true;
@@ -58,6 +70,23 @@ void MainMenuScene::handleButtonPlayClicked(Ref * sender, ui::Widget::TouchEvent
 		break;
 
 	case cocos2d::ui::Widget::TouchEventType::CANCELED:
+		break;
+	}
+}
+
+void MainMenuScene::handleButtonInstructionClicked(Ref * sender, ui::Widget::TouchEventType type)
+{
+	switch (type)
+	{
+	case cocos2d::ui::Widget::TouchEventType::BEGAN:
+		break;
+	case cocos2d::ui::Widget::TouchEventType::MOVED:
+		break;
+	case cocos2d::ui::Widget::TouchEventType::ENDED:
+		break;
+	case cocos2d::ui::Widget::TouchEventType::CANCELED:
+		break;
+	default:
 		break;
 	}
 }
@@ -84,7 +113,7 @@ void MainMenuScene::handleButtonExitClicked(Ref * sender, ui::Widget::TouchEvent
 void MainMenuScene::goToIntroductionScene(Ref * sender)
 {
 	auto introduction = IntroductionScene::createScene();
-	cocos2d::Director::getInstance()->replaceScene(GameScene::createScene());
+	cocos2d::Director::getInstance()->replaceScene(introduction);
 }
 
 void MainMenuScene::exitGame(Ref * sender)

@@ -1,6 +1,7 @@
 #include "SplashScene.h"
 #include "Defination.h"
 #include "MainMenuScene.h"
+#include "GameScene.h"
 
 Scene* SplashScene::createScene()	{
 	auto scene = Scene::create();

@@ -1,5 +1,8 @@
 #include "Tank.h"
 #include "Defination.h"
+#include "PhysicsBodyParser\PhysicsBodyParser.h"
+#include "SimpleAudioEngine.h"
+
 
 void Tank::spawnTank(Layer * layer)
 {
@@ -47,8 +50,7 @@ void Tank::setTankAction()
 	auto moveLeft3 = MoveBy::create(TANK_RELOAD_DURATION * 3, Vec2(-700, 0));
 	auto step3 = Sequence::create(moveLeft3, NULL);
 
-	auto tankSequence = Sequence::create(step1, step2, step3, CallFunc::create(tankSprite, callfunc_selector(Sprite::removeFromParent)), NULL);
-
+	auto tankSequence = Sequence::create(step1, step2, step3, CallFunc::create(tankSprite, callfunc_selector(Sprite::removeFromParent)), CallFunc::create(this, callfunc_selector(Tank::removeFromParent)), NULL);
 	tankSprite->runAction(tankSequence);
 }
 
@@ -57,6 +59,13 @@ void Tank::launchMissile()
 	tankMissile = cocos2d::Sprite::create("tank_ammo.png");
 	tankMissile->setPosition(tankPosition());
 	this->layer->addChild(tankMissile, 1000);
+
+	//create tank missile body
+	PhysicsBodyParser::getInstance()->parseJsonFile("CustomPhysicsBody.json");
+	auto tankMissileBody = PhysicsBodyParser::getInstance()->bodyFormJson(tankMissile, "tank_missile", PhysicsMaterial(1, 1, 0));
+	tankMissileBody->setContactTestBitmask(true);
+	tankMissileBody->setCollisionBitmask(OBSTACLE_COLLISION_BITMASK);
+	tankMissile->setPhysicsBody(tankMissileBody);
 
 	//tank's missile sequence action
 	aimPosition = targetPosition();
@@ -89,5 +98,6 @@ void Tank::missileExplode()
 	explosion->runAction(Sequence::create(DelayTime::create(1), CallFunc::create(explosion, callfunc_selector(ParticleExplosion::removeFromParent)), NULL));
 	
 	layer->addChild(explosion);
-	tankMissile->removeFromParent();
+	tankMissile->removeFromParentAndCleanup(true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/tank_sound.mp3");
 }

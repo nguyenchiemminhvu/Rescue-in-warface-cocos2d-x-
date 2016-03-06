@@ -1,90 +1,121 @@
 #include "Player.h"
+#include "PhysicsBodyParser\PhysicsBodyParser.h"
 
 
 Player::Player(Layer * layer)
 {
+	this->layer = layer;
 	loadPlayerSprite(layer);
-	limitedPlayerArea();
+	loadPlayerGun(layer);
 	initPlayerPhysicsBody();
+	keys = new bool[1024];
+	for (int i = 0; i < 1024; i++)
+		keys[i] = false;
 }
+
 
 Player::~Player()
 {
-	CC_SAFE_DELETE(playerSprite);
+	this->removeFromParentAndCleanup(true);
+	delete[] keys;
 }
 
-void Player::handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+
+Vec2 Player::getPlayerGunPosition()
 {
+	return playerGun->getPosition();
 }
 
-void Player::handleKeyReleaseEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event * event)
+
+void Player::handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode)
 {
+	keys[(int)keyCode] = true;
 }
 
-void Player::handleMouseMoveEvent(cocos2d::EventMouse * event)
+
+void Player::handleKeyReleasedEvent(cocos2d::EventKeyboard::KeyCode keyCode)
 {
-	mousePosition.setX(origin.x + event->getCursorX());
-	mousePosition.setY(origin.y + event->getCursorY());
+	keys[(int)keyCode] = false;
 }
 
-float Player::approachMousePosition(float separation, float dt)
+
+void Player::move(float dt)
 {
-	float different = separation * dt;
-	
-	return different;
+	if (keys[(int)EventKeyboard::KeyCode::KEY_W]) {
+		playerSprite->setPositionY(playerSprite->getPositionY() + FLYING_SPEED * dt);
+		if (playerSprite->getPositionY() > origin.y + visibleSize.height - playerSprite->getContentSize().height * 1.5)
+			getBack();
+	}
+
+	if (keys[(int)EventKeyboard::KeyCode::KEY_S]) {
+		playerSprite->setPositionY(playerSprite->getPositionY() - FLYING_SPEED * dt);
+	}
+
+	if (keys[(int)EventKeyboard::KeyCode::KEY_A]) {
+		playerSprite->setPositionX(playerSprite->getPositionX() - FLYING_SPEED * dt);
+		if (playerSprite->getPositionX() < origin.x + playerSprite->getContentSize().width)
+			getBack();
+	}
+
+	if (keys[(int)EventKeyboard::KeyCode::KEY_D]) {
+		playerSprite->setPositionX(playerSprite->getPositionX() + FLYING_SPEED * dt);
+		if (playerSprite->getPositionX() > origin.x + visibleSize.width - playerSprite->getContentSize().width)
+			getBack();
+	}
+}
+
+void Player::getBack()
+{
+	playerSprite->setPosition(previousPosition);
+}
+
+void Player::lostControl()
+{
+	auto rotation = RotateBy::create(2, 45.0f);
+	auto moveDown = MoveBy::create(HELICOPTER_LOST_CONTROLL_DURATION, Vec2(0, -visibleSize.height));
+	playerSprite->runAction(Spawn::create(rotation, moveDown, NULL));
 }
 
 void Player::update(float dt)
 {
-	//save temporarily player position
-	playerPrePosition = playerSprite->getPosition();
-
-	float differentX = mousePosition.getX() - playerSprite->getPositionX();
-	float differentY = mousePosition.getY() - playerSprite->getPositionY();
-
-	playerCurrentVelocity.setX(approachMousePosition(differentX, dt));
-	playerCurrentVelocity.setY(approachMousePosition(differentY, dt));
-
-	playerSprite->setPositionX(playerSprite->getPositionX() + playerCurrentVelocity.getX());
-	playerSprite->setPositionY(playerSprite->getPositionY() + playerCurrentVelocity.getY());
-
-	//check player position get out of range
-	if (!activitiesArea.containsPoint(playerSprite->getPosition())) {
-		//get back
-		playerSprite->setPosition(playerPrePosition);
-	}
+	previousPosition = playerSprite->getPosition();
+	move(dt);
+	shiftPlayerGun();
 }
-
 
 void Player::loadPlayerSprite(Layer *layer)
 {
 	origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 	visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-
+	
 	playerSprite = Sprite::create("helicopter_transportation.png");
 	playerSprite->setPosition(Vec2(origin.x + playerSprite->getContentSize().width * 2,
-		origin.y + GROUND_THICKNESS + playerSprite->getContentSize().height));
-	playerPrePosition = playerSprite->getPosition();
+								   origin.y + GROUND_THICKNESS + playerSprite->getContentSize().height));
+	previousPosition = Vec2(origin.x + playerSprite->getContentSize().width * 2,
+							origin.y + GROUND_THICKNESS + playerSprite->getContentSize().height);
 	layer->addChild(playerSprite);
 }
 
-void Player::limitedPlayerArea()
+void Player::loadPlayerGun(Layer * layer)
 {
-	activitiesArea.setRect(0, GROUND_THICKNESS, visibleSize.width, visibleSize.height);
+	playerGun = Sprite::create("minigun.png");
+	playerGun->setPosition(Vec2((playerSprite->getContentSize().width + playerGun->getContentSize().width) / 2, 
+								 (playerSprite->getContentSize().height - playerGun->getContentSize().height) / 2));
+	layer->addChild(playerGun, 1);
+	shiftPlayerGun();
 }
 
-void Player::initPlayerVelocity()
-{
-	playerCurrentVelocity.setX(0);
-	playerCurrentVelocity.setY(0);
 
-	mousePosition.setX(playerSprite->getPositionX());
-	mousePosition.setY(playerSprite->getPositionY());
+void Player::shiftPlayerGun()
+{
+	playerGun->setPosition(Vec2(playerSprite->getPositionX() + playerGun->getContentSize().width / 2,
+								playerSprite->getPositionY() - playerGun->getContentSize().height / 2));
 }
+
 
 void Player::initPlayerPhysicsBody()
 {
-	auto playerBody = PhysicsBody::createBox(Size(playerSprite->getContentSize().width, playerSprite->getContentSize().height / 2));
+	auto playerBody = PhysicsBodyParser::getInstance()->bodyFormJson(playerSprite, "player", PhysicsMaterial(999, 0, 0));
 	playerBody->setContactTestBitmask(true);
 	playerBody->setCollisionBitmask(PLAYER_COLLISTION_BITMASK);
 

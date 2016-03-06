@@ -13,33 +13,46 @@ class Player : public Node
 {
 public:
 
+	enum PlayerProperties
+	{
+		FLYING_SPEED = 100
+	};
+
+	enum MovementDirection
+	{
+		FORWARD,
+		BACKWARD,
+		LEFT,
+		RIGHT
+	};
+
 	Player(Layer *layer);
 	virtual ~Player();
 
-	void handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	void handleKeyReleaseEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	void handleMouseMoveEvent(cocos2d::EventMouse *event);
-
+	Vec2 getPlayerGunPosition();
+	void handleKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode);
+	void handleKeyReleasedEvent(cocos2d::EventKeyboard::KeyCode keyCode);
+	void move(float dt);
+	void getBack();
+	void lostControl();
 	void update(float dt);
-
 
 private:
 
 	cocos2d::Vec2 origin;
 	cocos2d::Size visibleSize;
-	cocos2d::Rect activitiesArea;
 
-	Vector2D playerCurrentVelocity;
-	Vector2D mousePosition;
+	bool *keys;
 
+	Layer *layer;
 	Sprite *playerSprite;
-	cocos2d::Vec2 playerPrePosition;
-	
+	Sprite *playerGun;
+	Vec2 previousPosition;
+
 	void loadPlayerSprite(Layer *layer);
-	void limitedPlayerArea();
-	void initPlayerVelocity();
+	void loadPlayerGun(Layer *layer);
+	void shiftPlayerGun();
 	void initPlayerPhysicsBody();
-	float approachMousePosition(float separation, float dt);
 };
 
 #endif //__PLAYER_H__

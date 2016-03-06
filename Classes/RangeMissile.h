@@ -7,11 +7,11 @@
 
 USING_NS_CC;
 
-class RangeMissile
+class RangeMissile : public Node
 {
 public:
-	static RangeMissile* spawnRangeMissile(cocos2d::Layer *layer);
-	RangeMissile(cocos2d::Layer *layer);
+	static RangeMissile* spawnRangeMissile(cocos2d::Layer *layer, float playerPositionY);
+	RangeMissile(cocos2d::Layer *layer, float playerPositionY);
 	virtual ~RangeMissile();
 
 private:
@@ -22,11 +22,14 @@ private:
 	cocos2d::Sprite *missileSprite;
 	cocos2d::ParticleSun *fire;
 
-	void createMissileSprite();
+	void createMissileSprite(float playerPositionY);
 	void createParticleFire();
+	void createMissileBody();
 
 	Sequence * missileAction();
 	Sequence * particleAction();
+
+	void removeAll();
 };
 
 #endif //__RANGE_MISSILE_H__

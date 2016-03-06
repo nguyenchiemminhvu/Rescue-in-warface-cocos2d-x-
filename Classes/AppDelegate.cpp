@@ -1,5 +1,8 @@
 #include "AppDelegate.h"
 #include "SplashScene.h"
+#include "MainMenuScene.h"
+#include "PhysicsBodyParser\PhysicsBodyParser.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -40,9 +43,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("FirstProject", Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("RescueInWarface", Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
-        glview = GLViewImpl::create("FirstProject");
+        glview = GLViewImpl::create("RescueInWarface");
 #endif
         director->setOpenGLView(glview);
     }
@@ -80,6 +83,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // run
     director->runWithScene(scene);
 
+	// parse the CustomPhysicsBody json file
+	PhysicsBodyParser::getInstance()->parseJsonFile("CustomPhysicsBody.json");
+	CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(1.0f);
+	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.8f);
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/helicopter_sound.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/missile_sound.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/tank_sound.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/tower_sound.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("sounds/background_sound.mp3");
+	
     return true;
 }
 

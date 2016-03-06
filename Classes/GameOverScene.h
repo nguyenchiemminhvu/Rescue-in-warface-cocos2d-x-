@@ -7,9 +7,11 @@
 
 USING_NS_CC;
 
+static uint64_t finalScore;
+
 class GameOverScene : public Layer	{
 public:
-	static Scene* createScene();
+	static Scene* createScene(uint64_t score);
 	virtual bool init();
 	
 	CREATE_FUNC(GameOverScene);
@@ -24,9 +26,14 @@ private:
 	cocos2d::Sprite *background;
 	ui::Button *buttonRetry;
 	ui::Button *buttonMenu;
+	cocos2d::LabelTTF *labelGameOver;
+	cocos2d::LabelTTF *labelScore;
+	cocos2d::LabelTTF *labelBestScore;
 
+	void initUserDatabase();
 	void initBackground();
 	void initButtons();
+	void initLabel();
 
 	void handleButtonRetryClicked(Ref *sender, ui::Widget::TouchEventType type);
 	void handleButtonMenuClicked(Ref *sender, ui::Widget::TouchEventType type);

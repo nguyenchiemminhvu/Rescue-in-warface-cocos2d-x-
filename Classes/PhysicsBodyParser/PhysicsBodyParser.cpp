@@ -1,30 +1,79 @@
-#include "PhysicsBodyParser.h"
+#include "PhysicsBodyParser\PhysicsBodyParser.h"
 
-
-
-PhysicsBodyParser * PhysicsBodyParser::getInstance()
+PhysicsBodyParser* PhysicsBodyParser::getInstance()
 {
-	return nullptr;
+	static PhysicsBodyParser* sg_ptr = nullptr;
+	if (nullptr == sg_ptr)
+	{
+		sg_ptr = new PhysicsBodyParser;
+	}
+	return sg_ptr;
 }
 
-bool PhysicsBodyParser::parseJsonFile(const char * file)
+bool PhysicsBodyParser::parse(unsigned char *buffer, long length)
 {
-	return false;
-}
-
-void PhysicsBodyParser::parse(const UCHAR * buffer, uint16_t length)
-{
+	bool result = false;
+	std::string js((const char*)buffer, length);
+	doc.Parse<0>(js.c_str());
+	if (!doc.HasParseError())
+	{
+		result = true;
+	}
+	return result;
 }
 
 void PhysicsBodyParser::clearCache()
 {
+	doc.SetNull();
 }
 
-PhysicsBody * PhysicsBodyParser::createBodyFromJson(Node * node, const char * name, PhysicsMaterial material)
+bool PhysicsBodyParser::parseJsonFile(const std::string& pFile)
 {
-	return nullptr;
+	auto content = FileUtils::getInstance()->getDataFromFile(pFile);
+	bool result = parse(content.getBytes(), content.getSize());
+	return result;
 }
 
-PhysicsBodyParser::PhysicsBodyParser()
+PhysicsBody* PhysicsBodyParser::bodyFormJson(cocos2d::Node *pNode, const std::string& name, PhysicsMaterial material)
 {
+	PhysicsBody* body = nullptr;
+	rapidjson::Value &bodies = doc["rigidBodies"];
+	if (bodies.IsArray())
+	{
+		for (int i = 0; i<bodies.Size(); ++i)
+		{
+			if (0 == strcmp(name.c_str(), bodies[i]["name"].GetString()))
+			{
+				rapidjson::Value &bd = bodies[i];
+				if (bd.IsObject())
+				{
+					body = PhysicsBody::create();
+					float width = pNode->getContentSize().width;
+					float offx = -pNode->getAnchorPoint().x*pNode->getContentSize().width;
+					float offy = -pNode->getAnchorPoint().y*pNode->getContentSize().height;
+
+					Point origin(bd["origin"]["x"].GetDouble(), bd["origin"]["y"].GetDouble());
+					rapidjson::Value &polygons = bd["polygons"];
+					for (int i = 0; i<polygons.Size(); ++i)
+					{
+						int pcount = polygons[i].Size();
+						Point* points = new Point[pcount];
+						for (int pi = 0; pi<pcount; ++pi)
+						{
+							points[pi].x = offx + width * polygons[i][pcount - 1 - pi]["x"].GetDouble();
+							points[pi].y = offy + width * polygons[i][pcount - 1 - pi]["y"].GetDouble();
+						}
+						body->addShape(PhysicsShapePolygon::create(points, pcount, material));
+						delete[] points;
+					}
+				}
+				else
+				{
+					CCLOG("body: %s not found!", name.c_str());
+				}
+				break;
+			}
+		}
+	}
+	return body;
 }

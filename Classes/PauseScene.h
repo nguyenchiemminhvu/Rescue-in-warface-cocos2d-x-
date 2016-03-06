@@ -3,22 +3,28 @@
 
 #pragma once
 #include "cocos2d.h"
+#include "ui\CocosGUI.h"
 
 USING_NS_CC;
 
 class PauseScene : public Layer	{
+
 public:
 	static Scene* createScene();
 	virtual bool init();
 	
 	CREATE_FUNC(PauseScene);
 
-	void goToMainMenuScene(Ref* sender);
-	void retry(Ref* sender);
-	void resume(Ref* sender);
+	void back(Ref* sender);
 
 private:
-	
+	cocos2d::Size visibleSize;
+	cocos2d::Vec2 origin;
+
+	cocos2d::LabelTTF *pauseLabel;
+
+	void initKeyboardListener();
+	void onKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 };
 
 #endif //__PAUSE_SCENE_H__

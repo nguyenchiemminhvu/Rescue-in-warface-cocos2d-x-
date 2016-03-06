@@ -1,6 +1,8 @@
 #include "IntroductionScene.h"
 #include "Defination.h"
 #include "GameScene.h"
+#include "FinishedScene.h"
+#include "SimpleAudioEngine.h"
 
 Scene * IntroductionScene::createScene()
 {
@@ -20,12 +22,21 @@ bool IntroductionScene::init()
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	background = Sprite::create("game_background.png");
+	background = Sprite::create("introduction_ground.png");
 	background->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+
+	outdoor = Sprite::create("introduction_background.png");
+	outdoor->setPosition(origin.x + visibleSize.width / 2, origin.y + GROUND_THICKNESS + outdoor->getContentSize().height / 2);
+
+	buttonSkip = ui::Button::create("button_skip.png", "button_skip_clicked.png");
+	buttonSkip->setPosition(Vec2(origin.x + visibleSize.width - buttonSkip->getContentSize().width / 2,
+								 origin.y + buttonSkip->getContentSize().height / 2));
+	buttonSkip->addTouchEventListener(CC_CALLBACK_2(IntroductionScene::handleButtonSkipClicked, this));
 
 	helicopter = Sprite::create("helicopter_transportation.png");
 	helicopter->setPosition(origin.x + visibleSize.width + helicopter->getContentSize().width / 2,
-							origin.y + visibleSize.height - helicopter->getContentSize().height / 2);
+							origin.y + visibleSize.height - helicopter->getContentSize().height);
+	helicopter->setFlipX(true);
 
 	soldier1 = Sprite::create("soldier.png");
 	soldier2 = Sprite::create("soldier.png");
@@ -35,6 +46,8 @@ bool IntroductionScene::init()
 	soldier3->setPosition(origin.x + soldier1->getContentSize().width * 3, GROUND_THICKNESS + soldier1->getContentSize().height * 2);
 
 	this->addChild(background);
+	this->addChild(outdoor);
+	this->addChild(buttonSkip);
 	this->addChild(helicopter);
 	this->addChild(soldier1);
 	this->addChild(soldier2);
@@ -58,15 +71,39 @@ bool IntroductionScene::init()
 	return true;
 }
 
+void IntroductionScene::handleButtonSkipClicked(Ref * sender, ui::Widget::TouchEventType type)
+{
+	switch (type)
+	{
+	case cocos2d::ui::Widget::TouchEventType::BEGAN:
+		break;
+	case cocos2d::ui::Widget::TouchEventType::MOVED:
+		break;
+	case cocos2d::ui::Widget::TouchEventType::ENDED:
+		this->goToGameScene(0);
+		break;
+	case cocos2d::ui::Widget::TouchEventType::CANCELED:
+		break;
+	default:
+		break;
+	}
+}
+
 cocos2d::Sequence* IntroductionScene::helicopterComing()
 {
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("sounds/helicopter_sound.mp3");
 	auto moveLeft = MoveBy::create(HELICOPTER_COMING_DURATION, Vec2(-visibleSize.width + helicopter->getContentSize().width, 0));
 	auto moveLeftEasing = EaseBackOut::create(moveLeft->clone());
 
-	auto moveDown = MoveBy::create(HELICOPTER_LANDING_DURATION, Vec2(0, -visibleSize.height + GROUND_THICKNESS + helicopter->getContentSize().height / 2));
+	auto moveDown = MoveBy::create(HELICOPTER_LANDING_DURATION, Vec2(0, -visibleSize.height + GROUND_THICKNESS + helicopter->getContentSize().height));
 
-	auto sequence = cocos2d::Sequence::create(moveLeftEasing, moveDown, NULL);
+	auto sequence = cocos2d::Sequence::create(moveLeftEasing, CallFunc::create(this, callfunc_selector(IntroductionScene::FlipHelicopter)), moveDown, NULL);
 	return sequence;
+}
+
+void IntroductionScene::FlipHelicopter()
+{
+	helicopter->setFlipX(false);
 }
 
 cocos2d::Sequence * IntroductionScene::helicopterLeaving()
@@ -91,5 +128,6 @@ cocos2d::Sequence * IntroductionScene::soldiersMovement()
 
 void IntroductionScene::goToGameScene(float t)
 {
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
 	cocos2d::Director::getInstance()->replaceScene(CCTransitionFade::create(TRANSITION_TIME, GameScene::createScene()));
 }
