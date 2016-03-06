@@ -1,3 +1,10 @@
+/*
+- Project: Rescue in warface
+- Author: Nguyen Chiem Minh Vu
+
+- First release: 00:20 07/03/2016
+*/
+
 #ifndef __DEFINATION_H__
 #define __DEFINATION_H__
 

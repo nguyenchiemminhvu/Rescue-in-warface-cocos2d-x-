@@ -1,3 +1,10 @@
+/*
+- Project: Rescue in warface
+- Author: Nguyen Chiem Minh Vu
+
+- First release: 00:20 07/03/2016
+*/
+
 #ifndef __GAMEOVER_SCENE_H__
 #define __GAMEOVER_SCENE_H__
 
