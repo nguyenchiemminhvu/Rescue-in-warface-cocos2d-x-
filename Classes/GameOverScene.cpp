@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "Defination.h"
+#include "SimpleAudioEngine.h"
 
 
 Scene* GameOverScene::createScene(uint64_t score)	{
@@ -35,6 +36,10 @@ bool GameOverScene::init()	{
 
 
 void GameOverScene::goToMainMenuScene(Ref* sender)	{
+
+	if (CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
+		CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+
 	auto menuScene = MainMenuScene::createScene();
 	Director::getInstance()->replaceScene( TransitionFade::create(TRANSITION_TIME, menuScene) );
 }

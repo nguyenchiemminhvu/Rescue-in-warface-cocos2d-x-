@@ -88,7 +88,7 @@ HUD* HUD::createHUD()	{
 
 void HUD::initOption()	{
 
-	this->remainingDistance = 5;
+	this->remainingDistance = 50;
 	this->remainingFuel = 20;
 	this->score = 0;
 

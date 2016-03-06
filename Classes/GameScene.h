@@ -30,8 +30,8 @@ public:
 	
 	CREATE_FUNC(GameScene);
 
-	void goToPauseScene(Ref* sender);
-	void goToGameOverScene(Ref* sender);
+	void goToPauseScene();
+	void goToGameOverScene();
 	void goToFinishedScene();
 
 	void update(float dt);

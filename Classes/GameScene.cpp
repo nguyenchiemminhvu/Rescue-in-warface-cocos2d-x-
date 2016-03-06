@@ -4,7 +4,7 @@
 
 Scene* GameScene::createScene()	{
 	auto scene = Scene::createWithPhysics();
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity( Vec2(0, 0) );
 
 	auto layer = GameScene::create();
@@ -51,13 +51,14 @@ bool GameScene::init()	{
 	return true;
 }
 
-void GameScene::goToPauseScene(Ref* sender)	{
+
+void GameScene::goToPauseScene()	{
 	auto pauseScene = PauseScene::createScene();
 	Director::getInstance()->pushScene(pauseScene);
 }
 
 
-void GameScene::goToGameOverScene(Ref* sender)	{
+void GameScene::goToGameOverScene()	{
 	auto gameOverScene = GameOverScene::createScene(hud->getScore());
 	Director::getInstance()->replaceScene( gameOverScene );
 }
@@ -66,7 +67,7 @@ void GameScene::goToGameOverScene(Ref* sender)	{
 void GameScene::goToFinishedScene()
 {
 	this->stopBackgroundMusic();
-	auto finishedScene = FinishedScene::createScene();
+	auto finishedScene = FinishedScene::createScene(hud->getScore());
 	Director::getInstance()->replaceScene(TransitionFade::create(5, finishedScene));
 }
 
@@ -238,7 +239,7 @@ void GameScene::onKeyPressedEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos
 	switch (keyCode)
 	{
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		this->goToPauseScene(this);
+		this->goToPauseScene();
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		this->spawnPlayerBullet(0);
@@ -297,21 +298,21 @@ bool GameScene::onContactBegin(PhysicsContact & contact)
 		|| (bitmaskA == OBSTACLE_COLLISION_BITMASK && bitmaskB == PLAYER_COLLISTION_BITMASK)) {
 
 		_eventDispatcher->removeAllEventListeners();
-		goToGameOverScene(this);
+		goToGameOverScene();
 	}
 
 	if ((bitmaskA == PLAYER_COLLISTION_BITMASK && bitmaskB == ENEMY_BULLET_BISMASK)
 		|| (bitmaskA == ENEMY_BULLET_BISMASK && bitmaskB == PLAYER_COLLISTION_BITMASK)) {
 
 		_eventDispatcher->removeAllEventListeners();
-		goToGameOverScene(this);
+		goToGameOverScene();
 	}
 
 	if ((bitmaskA == PLAYER_COLLISTION_BITMASK && bitmaskB == BOSS_COLLISION_BITMASK)
 		|| (bitmaskA == BOSS_COLLISION_BITMASK && bitmaskB == PLAYER_COLLISTION_BITMASK)) {
 
 		_eventDispatcher->removeAllEventListeners();
-		goToGameOverScene(this);
+		goToGameOverScene();
 	}
 
 	if ((bitmaskA == PLAYER_COLLISTION_BITMASK && bitmaskB == GASCAN_COLLISION_BITMASK)
@@ -363,7 +364,7 @@ bool GameScene::onBulletContactWithBigBossBegin(PhysicsContact & contact)
 	}
 
 	if (motherFucker->isBossDead()) {
-		goToFinishedScene();
+		this->runAction(Sequence::create(DelayTime::create(3), CallFunc::create(this, callfunc_selector(GameScene::goToFinishedScene)), NULL));
 	}
 
 	return true;
