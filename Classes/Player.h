@@ -46,9 +46,6 @@ public:
 
 private:
 
-	cocos2d::Vec2 origin;
-	cocos2d::Size visibleSize;
-
 	bool *keys;
 
 	Layer *layer;

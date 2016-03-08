@@ -8,7 +8,6 @@
 #include "PauseScene.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
-#include "Defination.h"
 
 
 Scene* PauseScene::createScene()	{

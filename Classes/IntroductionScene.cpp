@@ -6,7 +6,6 @@
 */
 
 #include "IntroductionScene.h"
-#include "Defination.h"
 #include "GameScene.h"
 #include "FinishedScene.h"
 #include "SimpleAudioEngine.h"
@@ -29,25 +28,25 @@ bool IntroductionScene::init()
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	background = Sprite::create("introduction_ground.png");
+	background = Sprite::create("images/introduction_ground.png");
 	background->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 
-	outdoor = Sprite::create("introduction_background.png");
+	outdoor = Sprite::create("images/introduction_background.png");
 	outdoor->setPosition(origin.x + visibleSize.width / 2, origin.y + GROUND_THICKNESS + outdoor->getContentSize().height / 2);
 
-	buttonSkip = ui::Button::create("button_skip.png", "button_skip_clicked.png");
+	buttonSkip = ui::Button::create("images/button_skip.png", "images/button_skip_clicked.png");
 	buttonSkip->setPosition(Vec2(origin.x + visibleSize.width - buttonSkip->getContentSize().width / 2,
 								 origin.y + buttonSkip->getContentSize().height / 2));
 	buttonSkip->addTouchEventListener(CC_CALLBACK_2(IntroductionScene::handleButtonSkipClicked, this));
 
-	helicopter = Sprite::create("helicopter_transportation.png");
+	helicopter = Sprite::create("images/helicopter_transportation.png");
 	helicopter->setPosition(origin.x + visibleSize.width + helicopter->getContentSize().width / 2,
 							origin.y + visibleSize.height - helicopter->getContentSize().height);
 	helicopter->setFlipX(true);
 
-	soldier1 = Sprite::create("soldier.png");
-	soldier2 = Sprite::create("soldier.png");
-	soldier3 = Sprite::create("soldier.png");
+	soldier1 = Sprite::create("images/soldier.png");
+	soldier2 = Sprite::create("images/soldier.png");
+	soldier3 = Sprite::create("images/soldier.png");
 	soldier1->setPosition(origin.x + soldier1->getContentSize().width, GROUND_THICKNESS + soldier1->getContentSize().height * 2);
 	soldier2->setPosition(origin.x + soldier1->getContentSize().width * 2, GROUND_THICKNESS + soldier1->getContentSize().height * 2);
 	soldier3->setPosition(origin.x + soldier1->getContentSize().width * 3, GROUND_THICKNESS + soldier1->getContentSize().height * 2);

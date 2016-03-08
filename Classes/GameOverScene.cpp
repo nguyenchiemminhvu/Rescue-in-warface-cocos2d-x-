@@ -68,7 +68,7 @@ void GameOverScene::initUserDatabase()
 
 void GameOverScene::initBackground()
 {
-	background = Sprite::create("main_menu_background.png");
+	background = Sprite::create("images/main_menu_background.png");
 	background->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 
 	this->addChild(background);
@@ -76,8 +76,8 @@ void GameOverScene::initBackground()
 
 void GameOverScene::initButtons()
 {
-	buttonRetry = cocos2d::ui::Button::create("button_retry.png", "button_retry_clicked.png");
-	buttonMenu = cocos2d::ui::Button::create("button_menu.png", "button_menu_clicked.png");
+	buttonRetry = cocos2d::ui::Button::create("images/button_retry.png", "images/button_retry_clicked.png");
+	buttonMenu = cocos2d::ui::Button::create("images/button_menu.png", "images/button_menu_clicked.png");
 
 	buttonRetry->setPosition(Vec2(origin.x + visibleSize.width / 2, 
 							      origin.y + visibleSize.height / 2 - buttonRetry->getContentSize().height / 2));

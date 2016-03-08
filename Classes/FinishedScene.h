@@ -23,8 +23,6 @@ public:
 	CREATE_FUNC(FinishedScene);
 
 private:
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 
 	cocos2d::LabelTTF *labelContinue;
 	cocos2d::LabelTTF *labelInstruction;

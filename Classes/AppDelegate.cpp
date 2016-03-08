@@ -92,7 +92,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/tank_sound.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sounds/tower_sound.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("sounds/background_sound.mp3");
-	
     return true;
 }
 

@@ -129,7 +129,7 @@ void MiniBoss::init(Layer *layer)
 
 void MiniBoss::initMiniBoss1()
 {
-	bossSprite1 = Sprite::create("enemy.png");
+	bossSprite1 = Sprite::create("images/enemy.png");
 	bossSprite1->setPosition(Vec2(origin.x + bossSprite1->getContentSize().width / 2,
 								  origin.y + visibleSize.height + bossSprite1->getContentSize().height));
 	health1 = 50;
@@ -149,7 +149,7 @@ void MiniBoss::initMiniBoss1()
 
 void MiniBoss::initMiniBoss2()
 {
-	bossSprite2 = Sprite::create("enemy.png");
+	bossSprite2 = Sprite::create("images/enemy.png");
 	bossSprite2->setPosition(Vec2(origin.x + visibleSize.width - bossSprite1->getContentSize().width / 2, 
 								  origin.y + visibleSize.height + bossSprite1->getContentSize().height));
 	health2 = 50;
@@ -303,7 +303,7 @@ void MiniBoss::attack2_2()
 
 void MiniBoss::createBullet(Vec2 position, bool leftToRight)
 {
-	auto bullet = Sprite::create("bullet.png");
+	auto bullet = Sprite::create("images/bullet.png");
 	bullet->setPosition(position);
 
 	auto bulletBody = PhysicsBodyParser::getInstance()->bodyFormJson(bullet, "bullet", PHYSICSBODY_MATERIAL_DEFAULT);

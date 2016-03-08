@@ -47,9 +47,6 @@ private:
 
 	Player *player;
 
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
-
 	Sprite *ground;
 	Sprite *ground2;
 	Sprite *outdoor;

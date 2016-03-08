@@ -11,6 +11,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Defination.h"
 #include "ui\CocosGUI.h"
 
 USING_NS_CC;
@@ -24,9 +25,6 @@ public:
 	CREATE_FUNC(IntroductionScene);
 
 private:
-
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 
 	Sprite *background;
 	Sprite *outdoor;

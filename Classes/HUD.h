@@ -10,6 +10,7 @@
 
 #pragma once
 #include "cocos2d.h"
+#include "Defination.h"
 
 USING_NS_CC;
 

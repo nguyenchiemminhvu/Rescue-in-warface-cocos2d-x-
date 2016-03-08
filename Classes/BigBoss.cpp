@@ -61,6 +61,7 @@ bool BigBoss::isBossDead()
 
 void BigBoss::start()
 {
+	setStarted(true);
 	bossSprite->runAction(preparation());
 }
 
@@ -82,7 +83,7 @@ void BigBoss::loopAction()
 
 void BigBoss::initBoss()
 {
-	bossSprite = Sprite::create("enemy_upgraded.png");
+	bossSprite = Sprite::create("images/enemy_upgraded.png");
 	bossSprite->setPosition(Vec2(origin.x + visibleSize.width - bossSprite->getContentSize().width / 2,
 								 origin.y + visibleSize.height + bossSprite->getContentSize().height * 2));
 
@@ -192,7 +193,7 @@ void BigBoss::createBullets(Vec2 position)
 {
 	Sprite *bullets[3];
 	for (int i = 0; i < 3; i++) {
-		bullets[i] = Sprite::create("bullet.png");
+		bullets[i] = Sprite::create("images/bullet.png");
 		bullets[i]->setPosition(position);
 
 		auto bulletBody = PhysicsBodyParser::getInstance()->bodyFormJson(bullets[i], "bullet", PHYSICSBODY_MATERIAL_DEFAULT);

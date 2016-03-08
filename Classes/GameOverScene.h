@@ -27,8 +27,6 @@ public:
 	void goToGameScene(Ref* sender);
 
 private:
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 
 	cocos2d::Sprite *background;
 	ui::Button *buttonRetry;

@@ -11,6 +11,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "ui\CocosGUI.h"
+#include "Defination.h"
 
 USING_NS_CC;
 
@@ -25,8 +26,6 @@ public:
 	void back(Ref* sender);
 
 private:
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 
 	cocos2d::LabelTTF *pauseLabel;
 

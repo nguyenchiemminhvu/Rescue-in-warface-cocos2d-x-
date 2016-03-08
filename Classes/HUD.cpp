@@ -99,8 +99,8 @@ void HUD::initOption()	{
 	this->remainingFuel = 20;
 	this->score = 0;
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto origin = Director::getInstance()->getVisibleOrigin();
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 
 	/////////////////////////////////////////////////
 	// distance

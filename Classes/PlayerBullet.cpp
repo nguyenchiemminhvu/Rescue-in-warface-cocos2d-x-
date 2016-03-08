@@ -34,7 +34,7 @@ PhysicsBody * PlayerBullet::getBulletBody()
 
 void PlayerBullet::initBullet(Vec2 gunPosition, Layer *layer)
 {
-	bulletSprite = Sprite::create("player_bullet.png");
+	bulletSprite = Sprite::create("images/player_bullet.png");
 	bulletSprite->setPosition(Vec2(gunPosition.x + 30, gunPosition.y));
 	layer->addChild(bulletSprite);
 }

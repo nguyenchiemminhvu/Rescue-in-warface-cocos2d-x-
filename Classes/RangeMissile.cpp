@@ -6,7 +6,6 @@
 */
 
 #include "RangeMissile.h"
-#include "Defination.h"
 #include "PhysicsBodyParser\PhysicsBodyParser.h"
 #include "SimpleAudioEngine.h"
 
@@ -40,7 +39,7 @@ RangeMissile::~RangeMissile()
 
 void RangeMissile::createMissileSprite(float playerPositionY)
 {
-	missileSprite = Sprite::create("missile.png");
+	missileSprite = Sprite::create("images/missile.png");
 
 	missileSprite->setAnchorPoint(Vec2(1, 0.5));
 

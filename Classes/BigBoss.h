@@ -38,9 +38,6 @@ private:
 
 	Layer *layer;
 
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
-
 	float verticalFlightDistance;
 	Vec2 bossBulletDirection[3];
 

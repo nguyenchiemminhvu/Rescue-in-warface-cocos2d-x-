@@ -35,7 +35,7 @@ TowerDefense::~TowerDefense()
 
 void TowerDefense::createTower()
 {
-	towerSprite = Sprite::create("tower.png");
+	towerSprite = Sprite::create("images/tower.png");
 	towerSprite->setPosition(Vec2(origin.x + visibleSize.width, origin.y + GROUND_THICKNESS + 50));
 	layer->addChild(towerSprite);
 }
@@ -117,7 +117,7 @@ void TowerDefense::initTowerBulletDireciton()
 
 Sprite* TowerDefense::createBullet()
 {
-	auto bulletSprite = Sprite::create("bullet.png");
+	auto bulletSprite = Sprite::create("images/bullet.png");
 	bulletSprite->setPosition(Vec2(towerSprite->getPositionX(), towerSprite->getPositionY() + towerSprite->getContentSize().height / 3));
 	layer->addChild(bulletSprite);
 

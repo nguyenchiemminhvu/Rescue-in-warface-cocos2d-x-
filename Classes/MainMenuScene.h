@@ -10,6 +10,7 @@
 
 #pragma once
 #include "cocos2d.h"
+#include "Defination.h"
 #include "ui\CocosGUI.h"
 
 USING_NS_CC;
@@ -37,6 +38,7 @@ private:
 	void handleButtonExitClicked(Ref *sender, ui::Widget::TouchEventType type);
 
 	void goToIntroductionScene(Ref* sender);
+	void goToInstructionScene(Ref* sender);
 	void exitGame(Ref* sender);
 };
 

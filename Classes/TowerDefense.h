@@ -26,9 +26,6 @@ public:
 
 private:
 	cocos2d::Layer *layer;
-
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 	
 	cocos2d::Sprite *towerSprite;
 	Vec2 towerBulletDirection[TOTAL_BULLET];

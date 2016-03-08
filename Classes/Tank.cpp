@@ -6,7 +6,6 @@
 */
 
 #include "Tank.h"
-#include "Defination.h"
 #include "PhysicsBodyParser\PhysicsBodyParser.h"
 #include "SimpleAudioEngine.h"
 
@@ -38,7 +37,7 @@ Vec2 Tank::tankPosition()
 
 void Tank::createTank()
 {
-	tankSprite = Sprite::create("tank_air_defense.png");
+	tankSprite = Sprite::create("images/tank_air_defense.png");
 	tankSprite->setPosition(origin.x + visibleSize.width + cocos2d::random(-100, 100),
 		origin.y + GROUND_THICKNESS - tankSprite->getContentSize().height / 2);
 
@@ -63,7 +62,7 @@ void Tank::setTankAction()
 
 void Tank::launchMissile()
 {
-	tankMissile = cocos2d::Sprite::create("tank_ammo.png");
+	tankMissile = cocos2d::Sprite::create("images/tank_ammo.png");
 	tankMissile->setPosition(tankPosition());
 	this->layer->addChild(tankMissile, 1000);
 

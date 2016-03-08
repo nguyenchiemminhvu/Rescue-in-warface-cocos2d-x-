@@ -8,7 +8,7 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "IntroductionScene.h"
-#include "Defination.h"
+#include "InstructionScene.h"
 
 
 Scene* MainMenuScene::createScene()	{
@@ -24,10 +24,10 @@ bool MainMenuScene::init()	{
 		return false;
 	}
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto origin = Director::getInstance()->getVisibleOrigin();
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 
-	background = Sprite::create("main_menu_background.png");
+	background = Sprite::create("images/main_menu_background.png");
 	background->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 
 	name = LabelTTF::create("Rescue in warface", "fonts/Backslash.ttf", 80);
@@ -36,9 +36,9 @@ bool MainMenuScene::init()	{
 	name->setPosition(Vec2(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height - name->getContentSize().height));
 
-	buttonPlay = ui::Button::create("button_play.png", "button_play_clicked.png");
-	buttonInstruction = ui::Button::create("button_instruction.png", "button_instruction_clicked.png");
-	buttonExit = ui::Button::create("button_exit.png", "button_exit_clicked.png");
+	buttonPlay = ui::Button::create("images/button_play.png", "images/button_play_clicked.png");
+	buttonInstruction = ui::Button::create("images/button_instruction.png", "images/button_instruction_clicked.png");
+	buttonExit = ui::Button::create("images/button_exit.png", "images/button_exit_clicked.png");
 
 	buttonPlay->setPosition(Vec2(origin.x + visibleSize.width / 2,
 								 origin.y + visibleSize.height / 2 + buttonPlay->getContentSize().height / 2.25));
@@ -81,6 +81,7 @@ void MainMenuScene::handleButtonPlayClicked(Ref * sender, ui::Widget::TouchEvent
 	}
 }
 
+
 void MainMenuScene::handleButtonInstructionClicked(Ref * sender, ui::Widget::TouchEventType type)
 {
 	switch (type)
@@ -90,6 +91,7 @@ void MainMenuScene::handleButtonInstructionClicked(Ref * sender, ui::Widget::Tou
 	case cocos2d::ui::Widget::TouchEventType::MOVED:
 		break;
 	case cocos2d::ui::Widget::TouchEventType::ENDED:
+		this->goToInstructionScene(this);
 		break;
 	case cocos2d::ui::Widget::TouchEventType::CANCELED:
 		break;
@@ -97,6 +99,7 @@ void MainMenuScene::handleButtonInstructionClicked(Ref * sender, ui::Widget::Tou
 		break;
 	}
 }
+
 
 void MainMenuScene::handleButtonExitClicked(Ref * sender, ui::Widget::TouchEventType type)
 {
@@ -117,11 +120,20 @@ void MainMenuScene::handleButtonExitClicked(Ref * sender, ui::Widget::TouchEvent
 	}
 }
 
+
 void MainMenuScene::goToIntroductionScene(Ref * sender)
 {
 	auto introduction = IntroductionScene::createScene();
 	cocos2d::Director::getInstance()->replaceScene(introduction);
 }
+
+
+void MainMenuScene::goToInstructionScene(Ref * sender)
+{
+	auto instruction = InstructionScene::createScene();
+	cocos2d::Director::getInstance()->pushScene(instruction);
+}
+
 
 void MainMenuScene::exitGame(Ref * sender)
 {

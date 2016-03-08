@@ -11,6 +11,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Defination.h"
 
 USING_NS_CC;
 
@@ -22,8 +23,6 @@ public:
 	virtual ~RangeMissile();
 
 private:
-	cocos2d::Vec2 origin;
-	cocos2d::Size visibleSize;
 
 	cocos2d::Layer *layer;
 	cocos2d::Sprite *missileSprite;

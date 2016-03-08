@@ -12,6 +12,9 @@
 
 using std::vector;
 
+static cocos2d::Size visibleSize;
+static cocos2d::Vec2 origin;
+
 const float SCHEDULE_TRANSITION_TIME = 3;
 const float TRANSITION_TIME = 1;
 const float GROUND_THICKNESS = 160;

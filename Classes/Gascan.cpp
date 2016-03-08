@@ -25,7 +25,7 @@ void Gascan::init(cocos2d::Layer *layer)
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 
-	gascanSprite = Sprite::create("gascan.png");
+	gascanSprite = Sprite::create("images/gascan.png");
 	gascanSprite->setPositionY(origin.y + visibleSize.height + gascanSprite->getContentSize().height);
 	gascanSprite->setPositionX(origin.x + (visibleSize.width / 4) + random(0.0f, (visibleSize.width / 2)));
 

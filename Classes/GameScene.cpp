@@ -95,9 +95,11 @@ void GameScene::startMiniBoss(float t)
 
 void GameScene::startBigBoss()
 {
-	this->warning();
-	this->scheduleOnce(schedule_selector(GameScene::startBigBoss), BIG_BOSS_PREPARE_DURATION);
-	this->scheduleOnce(schedule_selector(GameScene::startBigBossLoop), BIG_BOSS_PREPARE_DURATION * 2);
+	if (!motherFucker->isStarted()) {
+		this->warning();
+		this->scheduleOnce(schedule_selector(GameScene::startBigBoss), BIG_BOSS_PREPARE_DURATION);
+		this->scheduleOnce(schedule_selector(GameScene::startBigBossLoop), BIG_BOSS_PREPARE_DURATION * 2);
+	}
 }
 
 void GameScene::startBigBoss(float t)
@@ -393,8 +395,8 @@ void GameScene::resetOutdoor()
 
 void GameScene::initGround()
 {
-	ground = Sprite::create("game_ground.png");
-	ground2 = Sprite::create("game_ground.png");
+	ground = Sprite::create("images/game_ground.png");
+	ground2 = Sprite::create("images/game_ground.png");
 
 	ground->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 	ground2->setPosition(ground->getPosition().x + ground->getContentSize().width,
@@ -406,8 +408,8 @@ void GameScene::initGround()
 
 void GameScene::initGameScene()
 {
-	outdoor = Sprite::create("game_scene.png");
-	outdoor2 = Sprite::create("game_scene.png");
+	outdoor = Sprite::create("images/game_scene.png");
+	outdoor2 = Sprite::create("images/game_scene.png");
 
 	outdoor->setPosition(origin.x + visibleSize.width / 2, origin.y + GAME_GROUND_THICKNESS + outdoor->getContentSize().height / 2);
 	outdoor2->setPosition(outdoor->getPosition().x + outdoor->getContentSize().width,

@@ -26,8 +26,6 @@ public:
 	void removeAll();
 
 private:
-	cocos2d::Size visibleSize;
-	cocos2d::Vec2 origin;
 
 	Sprite *gascanSprite;
 	PhysicsBody *gascanBody;

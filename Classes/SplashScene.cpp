@@ -24,10 +24,10 @@ bool SplashScene::init()	{
 
 	this->scheduleOnce(schedule_selector(SplashScene::goToMainMenuScene), SCHEDULE_TRANSITION_TIME);
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto origin = Director::getInstance()->getVisibleOrigin();
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 
-	splash = Sprite::create("splashscene.png");
+	splash = Sprite::create("images/splashscene.png");
 	splash->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
 
 	this->addChild(splash);

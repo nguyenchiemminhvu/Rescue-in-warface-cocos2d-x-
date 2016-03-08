@@ -95,7 +95,7 @@ void Player::loadPlayerSprite(Layer *layer)
 	origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 	visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	
-	playerSprite = Sprite::create("helicopter_transportation.png");
+	playerSprite = Sprite::create("images/helicopter_transportation.png");
 	playerSprite->setPosition(Vec2(origin.x + playerSprite->getContentSize().width * 2,
 								   origin.y + GROUND_THICKNESS + playerSprite->getContentSize().height));
 	previousPosition = Vec2(origin.x + playerSprite->getContentSize().width * 2,
@@ -105,7 +105,7 @@ void Player::loadPlayerSprite(Layer *layer)
 
 void Player::loadPlayerGun(Layer * layer)
 {
-	playerGun = Sprite::create("minigun.png");
+	playerGun = Sprite::create("images/minigun.png");
 	playerGun->setPosition(Vec2((playerSprite->getContentSize().width + playerGun->getContentSize().width) / 2, 
 								 (playerSprite->getContentSize().height - playerGun->getContentSize().height) / 2));
 	layer->addChild(playerGun, 1);
